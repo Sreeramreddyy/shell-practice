@@ -29,18 +29,9 @@ VALIDATE(){
 }
 
 dnf list installed mysql &>>$LOG_FILE
-# Install if it is not found
 if [ $? -ne 0 ]; then
     dnf install mysql -y &>>$LOG_FILE
     VALIDATE $? "MySQL"
 else
     echo -e "Mysql already exit... $Y SKIPPING $N"
 fi    
-
-dnf list installed nginx &>>$LOG_FILE
-if [ $? -ne 0 ]; then
-    dnf install nginx -y &>>$LOG_FILE
-    VALIDATE $? "Nginx"
-else
-    echo -e "Nginx  already exit... $Y SKIPPING $N"
-fi
