@@ -21,23 +21,21 @@ if [ $? -ne 0 ]; then
     dnf install mysql -y
     VALIDATE $? "MySQL"
 else
-    echo -e "Mysql already exit .. $G SKIPPING $N"
+    echo -e "Mysql already exit... $G SKIPPING $N"
 fi    
 
 dnf list installed nginx
-# Install if it is not found
 if [ $? -ne 0 ]; then
     dnf install nginx -y
     VALIDATE $? "Nginx"
 else
-    echo -e "Nginx  already exit .. $Y SKIPPING $N"
+    echo -e "Nginx  already exit... $Y SKIPPING $N"
 fi
 
 dnf list installed python3
-# Install if it is not found
 if [ $? -ne 0 ]; then
     dnf install python3 -y
     VALIDATE $? "Python3"
 else
-    echo -e "Python3  already exit .. $Y SKIPPING $N"
+    echo -e "Python3  already exit... $Y SKIPPING $N"
 fi
