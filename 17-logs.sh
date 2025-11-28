@@ -44,11 +44,3 @@ if [ $? -ne 0 ]; then
 else
     echo -e "Nginx  already exit... $Y SKIPPING $N"
 fi
-
-dnf list installed python3 &>>$LOG_FILE
-if [ $? -ne 0 ]; then
-    dnf install python3 -y &>>$LOG_FILE
-    VALIDATE $? "Python3"
-else
-    echo -e "Python3  already exit... $Y SKIPPING $N"
-fi
