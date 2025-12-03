@@ -29,7 +29,7 @@ USAGE (){
     echo -e "$R UASGE:: sudo sh 25-backup.sh <SOURCE_DIR> <DEST_DIR> <DAYS>[optional], default 14 days] $N"
     exit 1
 }
-
+### Check SOURCE_DIR and DEST_DIR passed or not ####
 if [ $# -lt 2]; then
     USAGE
 fi
@@ -38,14 +38,34 @@ fi
 if [ ! -d $SOURCE_DIR ]; then
     echo -e "$R source $SOURCE_DIR does not exits $N"
 fi
-
+### Check DEST_DIR Exits ###
 if [ ! -d $DEST_DIR ]; then
     echo -e "$R Destination $DESR_DIR does not exits $N"
 fi
+### find the files #####
+FILES=$(find $SOURCE_DIR -name "*.log" -type f -mtime +$DAYS)
 
-FILES=$(find $SOURCE_DIR -name "*.log" -type f -mtime +14)
+if [ ! -z "${FILES}" ]; then
+    ### Start Archiving ###
+    echo "Files found: $FILES"
+    TIMESTAMP=$(date +%F-%H-%M)
+    ZIP_FILE_NAME=$DESR_DIR/app-logs-$TIMESTAMP.zip"
+    echo "zip file name: $ZIP_FILE_NAME"
+    find $SOURCE_DIR -name "*.log" -type f -mtime +$DAYS | zip -@ -j "$ZIP_FILE_NAME"
 
-if [ ! -z "${FILES}" ]; then 
-    echo "Fles found"
+    if [ -f $ZIP_FILE_NAME ]; then
+        echo -e "Archeival ... $G SUCCESS $N"
+        ### Delete id success ###
+        while IFS= read -r filepath
+        do
+            echo "Deleting the file: $filepath"
+            rm -rf $filepath
+            echo "Deleted the file: $filepath
+            
+        done <<< $FILES"
+    else 
+        echo -e "Archival ... $R FAILURE $N"
+        exit 1
 else
     echo -e "No files to archeive ... $Y SKIPPING $N"
+fi
