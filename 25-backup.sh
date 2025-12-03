@@ -38,3 +38,14 @@ fi
 if [ ! -d $SOURCE_DIR ]; then
     echo -e "$R source $SOURCE_DIR does not exits $N"
 fi
+
+if [ ! -d $DEST_DIR ]; then
+    echo -e "$R Destination $DESR_DIR does not exits $N"
+fi
+
+FILES=$(find $SOURCE_DIR -name "*.log" -type f -mtime +14)
+
+if [ ! -z "${FILES}" ]; then 
+    echo "Fles found"
+else
+    echo -e "No files to archeive ... $Y SKIPPING $N"
